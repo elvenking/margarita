@@ -1,7 +1,7 @@
 // @flow
 
-import { parseParameters } from '../Itineraries';
 import { parseParameters as parseItineraryParameters } from '../Itinerary';
+import { parseParameters, parseParametersNew } from '../Itineraries';
 
 const searchParams = {
   travelFrom: ['OSL'],
@@ -9,7 +9,31 @@ const searchParams = {
   dateFrom: new Date('2018-01-01'),
 };
 
-it('parses parameters corectly', () => {
+const searchParamsNew = {
+  order: 'DESC',
+  sort: 'QUALITY',
+  passengers: {
+    adults: 1,
+    children: 0,
+    infants: 0,
+  },
+  itinerary: {
+    origin: {
+      slug: ['prague-czechia'],
+      ids: ['prague_cz'],
+    },
+    destination: {
+      slug: null,
+      ids: ['STN'],
+    },
+    outboundDate: {
+      start: new Date('2019-05-01'),
+      end: new Date('2019-05-03'),
+    },
+  },
+};
+
+it('parses parameters correctly', () => {
   expect(parseParameters(searchParams)).toMatchInlineSnapshot(`
 Object {
   "curr": "EUR",
@@ -74,4 +98,21 @@ it('parses validity parameters corectly', () => {
     bnum: 1,
     pnum: 1,
   });
+});
+
+it('parses new parameters correctly', () => {
+  expect(parseParametersNew(searchParamsNew)).toMatchInlineSnapshot(`
+Object {
+  "adults": 1,
+  "asc": 0,
+  "children": 0,
+  "curr": "EUR",
+  "dateFrom": "01/05/2019",
+  "dateTo": "03/05/2019",
+  "flyFrom": "prague_cz",
+  "infants": 0,
+  "sort": "quality",
+  "to": "STN",
+}
+`);
 });

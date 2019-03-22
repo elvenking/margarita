@@ -15,12 +15,42 @@ export type ItinerariesCommonSearchParameters = {|
   |},
 |};
 
-export type ItinerariesOneWaySearchParameters = ItinerariesCommonSearchParameters;
-export type ItinerariesSearchParameters = {
-  ...ItinerariesCommonSearchParameters,
+export type ItinerariesOneWaySearchParameters = {|
+  +order?: 'ASC' | 'DESC',
+  +sort?: 'PRICE' | 'DURATION' | 'QUALITY' | 'DATE' | 'POPULARITY',
+  +itinerary: {|
+    +origin: {|
+      +ids: string[],
+      +slug: string[],
+    |},
+    +destination?: {|
+      +ids: ?(string[]),
+      +slug: ?(string[]),
+    |},
+    +outboundDate: {|
+      start: Date,
+      end?: Date,
+    |},
+  |},
+  +passengers?: {|
+    +adults?: number,
+    +children?: number,
+    +infants?: number,
+  |},
+|};
+export type ItinerariesSearchParameters = {|
+  +travelFrom: string[],
+  +dateFrom: Date,
+  +dateTo?: Date,
+  +travelTo?: string[],
+  +passengers?: {|
+    +adults?: number,
+    +children?: number,
+    +infants?: number,
+  |},
   returnDateFrom?: Date,
   returnDateTo?: Date,
-};
+|};
 
 export type ItineraryCheckParameters = {|
   +bookingToken: string,
